@@ -1,59 +1,43 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
-</script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>RR-Blogs</title>
+	<meta name="description" content="Create blogs and earn money" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+<script>
+  import Blog from './Blog.svelte';
 
-		to your new<br />SvelteKit app
-	</h1>
+	import { auth, db } from '$lib/firebase';
+	import { collectionStore } from 'sveltefire';
+	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+	import { userStore } from 'sveltefire';
+	const user = userStore(auth);
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+	const posts = collectionStore(db, 'blogs');
 
-	<Counter />
-</section>
+	function signIn() {
+		const provider = new GoogleAuthProvider()
+		signInWithPopup(auth,provider)
+	}
+
+</script>
+
+{#if $user}
+    <p>Hi {$user.displayName}</p>
+{:else}
+    <button on:click={signIn}>Sign in with Google</button>
+{/if}
+
+<ul id="blogs">
+	{#each $posts as post}
+		<Blog post={post}></Blog>
+	{/each}
+</ul>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	#blogs{
+		display: grid;
+		grid-template-columns: auto auto auto;
+		list-style-type: none;
 	}
 </style>
