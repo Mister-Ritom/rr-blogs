@@ -78,6 +78,7 @@ input,
 button {
 	font-size: inherit;
 	font-family: inherit;
+	width: fit-content;
 }
 
 button:focus:not(:focus-visible) {

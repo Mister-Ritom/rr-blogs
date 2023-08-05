@@ -1,15 +1,24 @@
 <script lang="ts">
 	export let post: any;
+
+	function getParagraphText() {
+		let str = post.paragraph.substring(0,180)
+		if (post.paragraph.length>180){
+			str+=" …"
+		}
+		return str
+	}
+
 </script>
 
-	<section class="blog">
+	<a href={`post?id=${post.id}`} class="blog">
 		<li class="blog-item">
 			<div class="blog-text">
 				<h2>{post.title}</h2>
-				<p>{post.paragraph}</p>
+				<p>{getParagraphText()}</p>
 			</div>
 		</li>
-	</section>
+	</a>
 
 <style>
 	.blog {
@@ -20,6 +29,12 @@
 		padding: 1rem;
 		margin: 8px;
 		border-radius: 16px;
+		transition: 0.6s ease-in-out;
+		color: var(--text);
+	}
+	.blog:hover {
+		background-color: var(--accent);
+		color: white;
 	}
 	.blog-item {
 		margin: auto;
@@ -29,12 +44,17 @@
 		margin-bottom: auto;
 	}
 	.blog h2 {
-		height: 3.3rem;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		padding: 0;
+		margin: 0;
+		color: rgb(97, 255, 229);
 	}
 	.blog p {
 		text-overflow: ellipsis;
+		overflow: hidden;
+		margin-top: 3px;
+		margin-bottom: 8px;
 	}
 </style>
 

@@ -4,16 +4,18 @@
 	<meta name="description" content="Create blogs and earn money" />
 </svelte:head>
 
-<script>
+<script lang="ts">
   import Blog from './Blog.svelte';
 
 	import { auth, db } from '$lib/firebase';
 	import { collectionStore } from 'sveltefire';
 	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { userStore } from 'sveltefire';
+	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	const user = userStore(auth);
 
-	const posts = collectionStore(db, 'blogs');
+	const blogQuery = query(collection(db,"blogs"),orderBy("createdOn"),limit(15))
+	const posts = collectionStore(db, blogQuery);
 
 	function signIn() {
 		const provider = new GoogleAuthProvider()
