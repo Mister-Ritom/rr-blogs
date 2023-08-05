@@ -17,7 +17,7 @@ body {
 	background-attachment: fixed;
 	background-size: 100vw 100vh;
 	background-color: var(--bg);
-
+	overflow-x: hidden;
 }
 
 @media(prefers-color-scheme:dark) {
@@ -27,6 +27,8 @@ body {
 		--bg: #040104;
 		--secondary: #0f1107;
 		--accent: #24c27e;
+		--nav-bg:#121212;
+		--nav-item-bg:#272626;
 	}
 }
 
@@ -102,7 +104,7 @@ button:focus:not(:focus-visible) {
 	}
 }
 
-.visually-hidden {
+.hidden {
 	border: 0;
 	clip: rect(0 0 0 0);
 	height: auto;
