@@ -4,15 +4,19 @@
 	import { doc, setDoc } from "firebase/firestore";
 	import { userStore } from "sveltefire";
     import DOMPurify from "dompurify";
+	import { onMount } from "svelte";
 
     let text: string;
     let titleText: string
 
     const user = userStore(auth)
 
-    if(!$user) {
-        goto("/")
-    }
+    onMount(()=> {
+        if(!$user) {
+            goto("/")
+        }
+    })
+
 
     function uploadBlog(e: Event) {
         e.preventDefault()
