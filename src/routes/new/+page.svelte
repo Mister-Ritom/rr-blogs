@@ -20,19 +20,20 @@
 
     function uploadBlog(e: Event) {
         e.preventDefault()
-        if(text!=undefined&&text!=null&&titleText!=undefined&&titleText!=null) {
+        if(text&&titleText&&$user) {
+            const userId = $user.uid
             const t = DOMPurify.sanitize(text, { USE_PROFILES: { html: true } })
             const tt = titleText
             text = ""
             titleText = ""
             const blogId = Date.now()
-            const blogDoc = doc(db,"blogs",blogId.toString())
+            const blogDoc = doc(db,"userBlogs",userId,"blogs",blogId.toString())
             setDoc(blogDoc,{
                 id:blogId,
                 paragraph:t,
                 title:tt,
                 createdOn:Date.now(),
-                createdBy:$user?.uid
+                createdBy:userId,
             }).then(()=> {
                 goto("/")
             }).catch((error)=> {

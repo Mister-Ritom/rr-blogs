@@ -1,4 +1,6 @@
 <script lang="ts">
+	import User from "./User.svelte";
+
 	export let post: any;
 
 	function getParagraphText() {
@@ -11,19 +13,19 @@
 
 </script>
 
-	<a href={`post?id=${post.id}`} class="blog">
+	<a href={`post?id=${post.id}&userId=${post.createdBy}`} class="blog">
 		<li class="blog-item">
 			<div class="blog-text">
 				<h2>{post.title}</h2>
-				<p>{getParagraphText()}</p>
+				<p>{@html getParagraphText()}</p>
 			</div>
+			<User userId={post.createdBy}/>
 		</li>
 	</a>
 
 <style>
 	.blog {
 		width: 20rem;
-		height: 10.8rem;
 		overflow: hidden;
 		background-color: var(--primary);
 		padding: 1rem;
@@ -43,14 +45,18 @@
 		margin-top: auto;
 		margin-bottom: auto;
 	}
-	.blog h2 {
+	.blog:hover h2 {
+		color: var(--primary);
+	}
+	h2 {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		padding: 0;
 		margin: 0;
 		color: rgb(97, 255, 229);
+		transition: 0.6s ease-in-out;
 	}
-	.blog p {
+	p {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		margin-top: 3px;

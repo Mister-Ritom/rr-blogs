@@ -5,7 +5,8 @@
 
     const url = $page.url;
     const id = url.searchParams.get("id")
-    const post = docStore(db,`blogs/${id}`)
+    const userId = url.searchParams.get("userId")
+    const post = docStore(db,`userBlogs/${userId}/blogs/${id}`)
 
 </script>
 
@@ -14,9 +15,12 @@
     <meta name="description" content={`A blog of RR-Blogs about ${$post?.title??""}`}>
 </svelte:head>
 
-{#if !id}
+{#if !id || !userId}
     <h1>No Blog found</h1>
 {:else}
- <h1>{$post?.title?? ""}</h1>
- <p>{@html $post?.paragraph?? ""}</p>
+
+{#if $post}
+<h1>{$post.title}</h1>
+<p>{@html $post.paragraph}</p>
+{/if}
 {/if}

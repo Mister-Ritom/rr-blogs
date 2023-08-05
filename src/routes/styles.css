@@ -81,6 +81,14 @@ button {
 	width: fit-content;
 }
 
+article {
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
 button:focus:not(:focus-visible) {
 	outline: none;
 }
