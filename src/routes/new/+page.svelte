@@ -5,18 +5,12 @@
 	import { userStore } from "sveltefire";
     import DOMPurify from "dompurify";
 	import { onMount } from "svelte";
+	import LoginWithGoogle from "$lib/LoginWithGoogle.svelte";
 
     let text: string;
     let titleText: string
 
     const user = userStore(auth)
-
-    onMount(()=> {
-        if(!$user) {
-            goto("/")
-        }
-    })
-
 
     function uploadBlog(e: Event) {
         e.preventDefault()
@@ -49,6 +43,7 @@
 	<meta name="description" content="Create a new blog in RR-Blogs and earn money" />
 </svelte:head>
 
+{#if $user}
 <form on:submit={uploadBlog}>
     <label for="title">Title</label>
     <input bind:value={titleText} type="text" id="title">
@@ -57,6 +52,10 @@
     <button type="submit">Upload</button>
 </form>
 
+{:else}
+     <h1>You need to sign in to upload a blog</h1>
+     <LoginWithGoogle/>
+{/if}
 
 <style>
     form {

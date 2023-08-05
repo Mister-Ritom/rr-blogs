@@ -1,12 +1,26 @@
+
 <script>
-    /**
-	 * @type {any}
-	 */
- export let signInWithGoogle;
+	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+	import { doc, setDoc } from 'firebase/firestore';
+	import { auth, db } from '$lib/firebase';
+
+  	async function signIn() {
+		const provider = new GoogleAuthProvider()
+		const cred = await signInWithPopup(auth,provider)
+		const user = cred.user
+		const userDoc = doc(db,"users",user.uid)
+		setDoc(userDoc,{
+			uid:user.uid,
+			name:user.displayName,
+			email:user.email,
+			profilePic:user.photoURL,
+			createdOn:Date.now()
+		})
+	}
 </script>
 
 <div class="g-btn">
-    <button on:click={signInWithGoogle} id="g-signin">
+    <button on:click={signIn} id="g-signin">
         <span class="label">Sign in with:</span>
         <div id="custom-btn" class="customGPlusSignIn">
           <span class="icon"></span>

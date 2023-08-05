@@ -1,24 +1,9 @@
 <script lang="ts">
-	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { userStore } from 'sveltefire';
-	import { doc, setDoc } from 'firebase/firestore';
-	import { auth, db } from '$lib/firebase';
+	import { auth } from '$lib/firebase';
 	import ProviderSignIn from "$lib/LoginWithGoogle.svelte"
 	
 	const user = userStore(auth);
-	async function signIn() {
-		const provider = new GoogleAuthProvider()
-		const cred = await signInWithPopup(auth,provider)
-		const user = cred.user
-		const userDoc = doc(db,"users",user.uid)
-		setDoc(userDoc,{
-			uid:user.uid,
-			name:user.displayName,
-			email:user.email,
-			profilePic:user.photoURL,
-			createdOn:Date.now()
-		})
-	}
 
 	let dropDown: HTMLDivElement
 
@@ -41,7 +26,7 @@
 		<ul>
 			<li class="new-item" ><a href="/new">New</a></li>
 			<li class="nav-item" ><a href="/">Home</a></li>		
-			<li class="nav-item" ><a href="/">Blogs</a></li>
+			<li class="nav-item" ><a href="/blogs">Blogs</a></li>
 		</ul>
 		{#if $user}
 		<button on:click={showDropdown} class="user-item">
@@ -55,7 +40,7 @@
 			</div>
 		</button>
 		{:else}
-			<ProviderSignIn signInWithGoogle={signIn}/>
+			<ProviderSignIn/>
 		{/if}
 	</nav>
 </header>
