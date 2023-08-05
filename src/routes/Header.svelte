@@ -82,6 +82,7 @@
 		align-items: center;
 		margin-left: auto;
 		width: max-content;
+		margin-right: 8px;
 	}
 
 	.user-dropdown {
